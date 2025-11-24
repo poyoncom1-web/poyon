@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>پویون - پلتفرم هوشمند مدیریت زندگی</title>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    :root {
+      --slate-950: #020617;
+      --slate-900: #0f172a;
+      --slate-800: #1e293b;
+      --slate-700: #334155;
+      --slate-600: #475569;
+      --slate-500: #64748b;
+      --slate-400: #94a3b8;
+      --slate-300: #cbd5e1;
+      --slate-200: #e2e8f0;
+      --slate-100: #f1f5f9;
+      --slate-50: #f8fafc;
+      
+      --sky-500: #0ea5e9;
+      --sky-400: #38bdf8;
+      --sky-300: #7dd3fc;
+      --sky-200: #bae6fd;
+      
+      --blue-600: #2563eb;
+      --blue-700: #1d4ed8;
+      
+      --emerald-500: #10b981;
+      --teal-600: #0d9488;
+      
+      --orange-500: #f97316;
+      --red-600: #dc2626;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f5f9ff;
+      color: var(--slate-900);
+      line-height: 1.5;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+      font-size: 14px;
+    }
+
+    /* Animated Background */
+    .animated-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .floating-shape {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.12;
+    }
+
+    .shape1 {
+      top: -100px;
+      right: -100px;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, var(--sky-300), transparent);
+      animation: float 20s infinite ease-in-out;
+    }
+
+    .shape2 {
+      bottom: -80px;
+      left: -80px;
+      width: 160px;
+      height: 160px;
+      background: radial-gradient(circle, var(--sky-400), transparent);
+      animation: float-delay-5 20s infinite ease-in-out;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(30px, -30px) scale(1.05); }
+    }
+
+    @keyframes float-delay-5 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(-30px, 30px) scale(1.05); }
+    }
+
+    /* Header - موبایل محور */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+      background: rgba(255, 255, 255, 0.9);
+      border-bottom: 1px solid rgba(14, 165, 233, 0.15);
+      transition: all 0.3s;
+    }
+
+    header.scrolled {
+      background: rgba(255, 255, 255, 0.98);
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.1);
+    }
+
+    .nav-container {
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+
+    .logo-circle {
+      position: relative;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--sky-300), var(--sky-500));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(148, 163, 184, 0.3);
+    }
+
+    .logo-circle span {
+      font-size: 1.125rem;
+      font-weight: 900;
+      color: white;
+    }
+
+    .logo-text {
+      font-size: 1.125rem;
+      font-weight: 900;
+      background: linear-gradient(90deg, var(--sky-500), var(--blue-600));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .nav-links {
+      display: none;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+    }
+
+    .mobile-menu {
+      display: none;
+    }
+
+    /* Hero Section - موبایل */
+    .hero {
+      padding: 5.5rem 1rem 2rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    .hero-container {
+      max-width: 100%;
+    }
+
+    .hero-content {
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      padding: 0.375rem 0.75rem;
+      background: rgba(191, 219, 254, 0.6);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 50px;
+      color: #1d4ed8;
+      font-size: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .badge svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    .hero-title {
+      font-size: 2.25rem;
+      font-weight: 900;
+      background: linear-gradient(90deg, #0ea5e9, #2563eb, #38bdf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.75rem;
+      line-height: 1.2;
+    }
+
+    .hero-subtitle {
+      font-size: 1.125rem;
+      color: var(--slate-700);
+      margin-bottom: 0.75rem;
+      line-height: 1.4;
+    }
+
+    .hero-description {
+      color: var(--slate-600);
+      font-size: 0.9375rem;
+      line-height: 1.6;
+      margin: 0 auto 1.25rem;
+      padding: 0 0.5rem;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+      padding: 0 0.5rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.875rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+      border: none;
+      cursor: pointer;
+      font-size: 0.9375rem;
+      width: 100%;
+    }
+
+    .btn-primary {
+      background: linear-gradient(90deg, var(--sky-400), var(--sky-500));
+      color: white;
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+
+    .btn-primary:active {
+      transform: scale(0.98);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--sky-600);
+      border: 1px solid rgba(59, 130, 246, 0.25);
+    }
+
+    .btn-secondary:active {
+      background: #eff6ff;
+    }
+
+    .btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Stats Section - موبایل */
+    .stats {
+      padding: 2rem 1rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+    }
+
+    .stat-card {
+      text-align: center;
+      padding: 1.25rem 0.75rem;
+      background: linear-gradient(135deg, rgba(239, 246, 255, 0.9), rgba(219, 234, 254, 0.8));
+      border: 1px solid rgba(191, 219, 254, 0.8);
+      border-radius: 1rem;
+      transition: all 0.2s;
+    }
+
+    .stat-card:active {
+      transform: scale(0.98);
+    }
+
+    .stat-icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      margin: 0 auto 0.625rem;
+      border-radius: 0.75rem;
+      background: linear-gradient(135deg, var(--sky-400), var(--sky-500));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(148, 163, 184, 0.35);
+    }
+
+    .stat-icon svg {
+      width: 1.25rem;
+      height: 1.25rem;
+      color: white;
+    }
+
+    .stat-number {
+      font-size: 1.75rem;
+      font-weight: 900;
+      background: linear-gradient(90deg, var(--sky-500), var(--blue-600));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.25rem;
+      line-height: 1;
+    }
+
+    .stat-label {
+      color: var(--slate-600);
+      font-size: 0.75rem;
+      line-height: 1.3;
+    }
+
+    /* Section Common - موبایل */
+    section {
+      position: relative;
+      z-index: 10;
+    }
+
+    .container {
+      padding: 2.5rem 1rem;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .section-title {
+      font-size: 1.75rem;
+      font-weight: 900;
+      background: linear-gradient(90deg, #0f172a, #1d4ed8, #0ea5e9);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.75rem;
+      line-height: 1.3;
+      padding: 0 0.5rem;
+    }
+
+    .section-description {
+      font-size: 0.9375rem;
+      color: var(--slate-600);
+      line-height: 1.6;
+      padding: 0 0.5rem;
+    }
+
+    /* Features - موبایل */
+    .features-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .feature-card {
+      padding: 1.5rem 1.25rem;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(239, 246, 255, 0.9));
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      border-radius: 1.25rem;
+      transition: all 0.2s;
+    }
+
+    .feature-card:active {
+      transform: scale(0.98);
+    }
+
+    .feature-icon {
+      width: 3rem;
+      height: 3rem;
+      background: linear-gradient(135deg, var(--sky-400), var(--sky-500));
+      border-radius: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      box-shadow: 0 4px 12px rgba(148, 163, 184, 0.4);
+    }
+
+    .feature-icon svg {
+      width: 1.5rem;
+      height: 1.5rem;
+      color: white;
+    }
+
+    .feature-title {
+      font-size: 1.0625rem;
+      font-weight: 900;
+      color: #1d4ed8;
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+
+    .feature-description {
+      color: var(--slate-600);
+      line-height: 1.6;
+      font-size: 0.875rem;
+    }
+
+    /* Services - موبایل */
+    .services-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .service-card {
+      position: relative;
+      padding: 1.75rem 1.25rem;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(239, 246, 255, 0.9));
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      border-radius: 1.25rem;
+      overflow: hidden;
+      transition: all 0.2s;
+    }
+
+    .service-card:active {
+      transform: scale(0.98);
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .service-card.blue::before {
+      background: linear-gradient(135deg, #bfdbfe, #60a5fa);
+    }
+
+    .service-card.indigo::before {
+      background: linear-gradient(135deg, #c7d2fe, #818cf8);
+    }
+
+    .service-card.emerald::before {
+      background: linear-gradient(135deg, #a7f3d0, #34d399);
+    }
+
+    .service-card.orange::before {
+      background: linear-gradient(135deg, #fed7aa, #fb923c);
+    }
+
+    .service-icon {
+      position: relative;
+      z-index: 1;
+      width: 3.5rem;
+      height: 3.5rem;
+      border-radius: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      box-shadow: 0 8px 16px rgba(148, 163, 184, 0.5);
+    }
+
+    .service-card.blue .service-icon {
+      background: linear-gradient(135deg, #60a5fa, #3b82f6);
+    }
+
+    .service-card.indigo .service-icon {
+      background: linear-gradient(135deg, #818cf8, #6366f1);
+    }
+
+    .service-card.emerald .service-icon {
+      background: linear-gradient(135deg, #34d399, #10b981);
+    }
+
+    .service-card.orange .service-icon {
+      background: linear-gradient(135deg, #fb923c, #f97316);
+    }
+
+    .service-icon svg {
+      width: 1.75rem;
+      height: 1.75rem;
+      color: white;
+    }
+
+    .service-badge {
+      position: relative;
+      z-index: 1;
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      border-radius: 50px;
+      font-size: 0.75rem;
+      color: #1d4ed8;
+      margin-bottom: 0.625rem;
+      font-weight: 600;
+    }
+
+    .service-title {
+      position: relative;
+      z-index: 1;
+      font-size: 1.125rem;
+      font-weight: 900;
+      color: #0f172a;
+      margin-bottom: 0.625rem;
+      line-height: 1.3;
+    }
+
+    .service-description {
+      position: relative;
+      z-index: 1;
+      color: var(--slate-600);
+      line-height: 1.6;
+      font-size: 0.875rem;
+    }
+
+    /* Download - موبایل */
+    .download {
+      padding: 2.5rem 1rem;
+    }
+
+    .download-container {
+      background: linear-gradient(135deg, #e0f2fe, #bfdbfe);
+      border: 1px solid rgba(14, 165, 233, 0.25);
+      border-radius: 1.5rem;
+      padding: 2rem 1.25rem;
+      text-align: center;
+      box-shadow: 0 12px 24px rgba(148, 163, 184, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .download-icon {
+      width: 3.5rem;
+      height: 3.5rem;
+      margin: 0 auto 1.25rem;
+      background: linear-gradient(135deg, var(--sky-400), var(--sky-500));
+      border-radius: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 16px rgba(59, 130, 246, 0.4);
+    }
+
+    .download-icon svg {
+      width: 1.75rem;
+      height: 1.75rem;
+      color: white;
+    }
+
+    .download-title {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: #0f172a;
+      margin-bottom: 0.75rem;
+      line-height: 1.3;
+    }
+
+    .download-description {
+      font-size: 0.9375rem;
+      color: var(--slate-700);
+      line-height: 1.6;
+      margin: 0 auto 1.5rem;
+    }
+
+    .download-platforms {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .platform-card {
+      padding: 1.25rem 1rem;
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      border-radius: 1rem;
+      transition: all 0.2s;
+    }
+
+    .platform-card:active {
+      transform: scale(0.98);
+      background: #eff6ff;
+    }
+
+    .platform-icon {
+      width: 2rem;
+      height: 2rem;
+      margin: 0 auto 0.625rem;
+      color: var(--sky-600);
+    }
+
+    .platform-name {
+      font-size: 1rem;
+      color: #0f172a;
+      margin-bottom: 0.25rem;
+      font-weight: 700;
+    }
+
+    .platform-status {
+      font-size: 0.8125rem;
+      color: var(--slate-600);
+    }
+
+    /* Footer - موبایل */
+    footer {
+      border-top: 1px solid rgba(14, 165, 233, 0.15);
+      background: rgba(226, 232, 240, 0.8);
+    }
+
+    .footer-container {
+      padding: 2.5rem 1.25rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .footer-title {
+      color: #1d4ed8;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      font-size: 0.9375rem;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-links a {
+      color: var(--slate-700);
+      text-decoration: none;
+      transition: color 0.2s;
+      font-size: 0.875rem;
+    }
+
+    .footer-links a:active {
+      color: var(--sky-600);
+    }
+
+    .footer-bottom {
+      padding: 1.25rem;
+      border-top: 1px solid rgba(148, 163, 184, 0.4);
+      text-align: center;
+      color: var(--slate-600);
+      font-size: 0.8125rem;
+    }
+
+    /* Scroll to Top - موبایل (دیگه استفاده نمی‌شه ولی مشکلی هم ایجاد نمی‌کنه) */
+    .scroll-top {
+      display: none;
+    }
+
+    /* Desktop - فقط برای صفحات بزرگتر */
+    @media (min-width: 768px) {
+      body {
+        font-size: 16px;
+      }
+
+      .hero {
+        padding: 8rem 2rem 4rem;
+      }
+
+      .hero-title {
+        font-size: 3rem;
+      }
+
+      .hero-subtitle {
+        font-size: 1.5rem;
+      }
+
+      .hero-description {
+        font-size: 1.125rem;
+      }
+
+      .hero-buttons {
+        flex-direction: row;
+        justify-content: center;
+      }
+
+      .btn {
+        width: auto;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.5rem;
+      }
+
+      .section-title {
+        font-size: 2.5rem;
+      }
+
+      .features-grid,
+      .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+      }
+
+      .download-platforms {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .footer-container {
+        grid-template-columns: repeat(3, 1fr);
+        padding: 4rem 2rem;
+        gap: 3rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .mobile-menu-btn {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Animated Background -->
+  <div class="animated-bg">
+    <div class="floating-shape shape1"></div>
+    <div class="floating-shape shape2"></div>
+  </div>
+
+  <!-- Header -->
+  <header id="header">
+    <div class="nav-container">
+      <a href="#" class="logo-container">
+        <div class="logo-circle">
+          <span>P</span>
+        </div>
+        <div class="logo-text">Poyon</div>
+      </a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-container">
+      <div class="hero-content">
+        <div class="badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path>
+          </svg>
+          <span>پلتفرم هوشمند مدیریت زندگی</span>
+        </div>
+
+        <h1 class="hero-title">Poyon</h1>
+        <p class="hero-subtitle">دستیار هوشمند شما </p>
+        <p class="hero-description">
+          پویون با تکیه بر هوش مصنوعی، کاری کرده که هر کس – از دانش‌آموز و دانشجو تا کارمند – بتواند این فناوری را کاملاً کاربردی و بهینه در زندگی روزمره‌اش به کار بگیرد؛ هم زمانتان را برای کارهای مهم‌تر ذخیره می‌کند و هم از گرفتار شدن در چرخه فرسودگی جلوگیری می‌کند.
+        </p>
+
+        <div class="hero-buttons">
+          <a href="#download" class="btn btn-primary">
+            <span>شروع استفاده</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 5 12 12 19"></polyline>
+            </svg>
+          </a>
+          <a href="#features" class="btn btn-secondary">
+            <span>بیشتر بدانید</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="stats">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+        </div>
+        <div class="stat-number">18</div>
+        <div class="stat-label">کاربر فعال</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="7" y="7" width="10" height="10" rx="2" ry="2"></rect>
+            <path d="M10 2v3"></path>
+            <path d="M14 2v3"></path>
+            <path d="M10 19v3"></path>
+            <path d="M14 19v3"></path>
+            <path d="M2 10h3"></path>
+            <path d="M2 14h3"></path>
+            <path d="M19 10h3"></path>
+            <path d="M19 14h3"></path>
+          </svg>
+        </div>
+        <div class="stat-number">7</div>
+        <div class="stat-label">سرویس های فعال</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+        </div>
+        <div class="stat-number">24/7</div>
+        <div class="stat-label">پشتیبانی آنلاین</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+            <polyline points="17 6 23 6 23 12"></polyline>
+          </svg>
+        </div>
+        <div class="stat-number">0%</div>
+        <div class="stat-label">رضایت کاربران</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="container">
+    <div class="section-header">
+      <div class="badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+        </svg>
+        <span>امکانات پیشرفته</span>
+      </div>
+      <h2 class="section-title">تکنولوژی در خدمت شما</h2>
+      <p class="section-description">
+        پویون با بهره‌گیری از جدیدترین فناوری‌های هوش مصنوعی، تجربه‌ای نوین از مدیریت زندگی دیجیتال برای شما فراهم می‌کند.
+      </p>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Z"></path>
+            <path d="M12 6v6l4 2"></path>
+            <circle cx="12" cy="12" r="2"></circle>
+          </svg>
+        </div>
+        <h3 class="feature-title">هوش مصنوعی پیشرفته</h3>
+        <p class="feature-description">
+          استفاده از تکنولوژی جدید برای پاسخگویی به مخاطب و پیشنهادات شخصی‌سازی شده و بهینه‌سازی فرآیندهای کاری و آموزشی شما.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <circle cx="12" cy="12" r="6"></circle>
+            <circle cx="12" cy="12" r="2"></circle>
+          </svg>
+        </div>
+        <h3 class="feature-title">مدیریت هدفمند</h3>
+        <p class="feature-description">
+          تعیین اهداف هوشمند، پیگیری پیشرفت و دریافت بازخورد لحظه‌ای برای دستیابی سریع‌تر به موفقیت.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          </svg>
+        </div>
+        <h3 class="feature-title">امنیت و حریم خصوصی</h3>
+        <p class="feature-description">
+          محافظت کامل از اطلاعات شخصی با رمزنگاری پیشرفته و پروتکل‌های امنیتی روز دنیا.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+          </svg>
+        </div>
+        <h3 class="feature-title">عملکرد سریع</h3>
+        <p class="feature-description">
+          پردازش آنی درخواست‌ها و ارائه پاسخ‌های فوری برای تجربه کاربری روان و بدون وقفه.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="20" x2="18" y2="10"></line>
+            <line x1="12" y1="20" x2="12" y2="4"></line>
+            <line x1="6" y1="20" x2="6" y2="14"></line>
+          </svg>
+        </div>
+        <h3 class="feature-title">تحلیل و گزارش‌گیری</h3>
+        <p class="feature-description">
+          داشبورد تحلیلی جامع با نمودارها و آمارهای دقیق از عملکرد، پیشرفت و دستاوردهای شما.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+        </div>
+        <h3 class="feature-title">همکاری تیمی</h3>
+        <p class="feature-description">
+          امکان کار گروهی، اشتراک‌گذاری پروژه‌ها و هماهنگی بهتر با اعضای تیم در محیطی یکپارچه و دستیار های هوشمند مخصوص برای فعالیت کاری شما.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section id="services" class="container">
+    <div class="section-header">
+      <div class="badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+        </svg>
+        <span>سرویس‌های تخصصی</span>
+      </div>
+      <h2 class="section-title">یک پلتفرم، چهار تجربه</h2>
+      <p class="section-description">
+        پویون با ارائه چهار سرویس تخصصی، تمامی نیازهای روزمره شما را در یک محیط یکپارچه پوشش می‌دهد.
+      </p>
+    </div>
+
+    <div class="services-grid">
+      <div class="service-card blue">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+          </svg>
+        </div>
+        <div class="service-badge">کارینو</div>
+        <h3 class="service-title">مدیریت حرفه‌ای کار</h3>
+        <p class="service-description">
+         ابزار هوشمند,سازماندهی پروژه‌ها، مدیریت زمان، برنامه‌ریزی هوشمند و افزایش بهره‌وری در محیط کار.
+        </p>
+      </div>
+
+      <div class="service-card indigo">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+          </svg>
+        </div>
+        <div class="service-badge">درسینو</div>
+        <h3 class="service-title">یادگیری با ابزار هوشمند</h3>
+        <p class="service-description">
+          برنامه‌ریزی درسی، تبدیل محتوا به متن، خلاصه‌سازی و ابزارهای کمکی برای یادگیری بهتر.
+        </p>
+      </div>
+
+      <div class="service-card emerald">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
+        </div>
+        <div class="service-badge">زندگی سالم</div>
+        <h3 class="service-title">مراقبت از سلامت</h3>
+        <p class="service-description">
+         سبک زندگی سالم, پیگیری تناسب اندام، تغذیه سالم، مدیریت استرس و ایجاد عادت‌های مثبت برای زندگی بهتر.
+        </p>
+      </div>
+
+      <div class="service-card orange">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+          </svg>
+        </div>
+        <div class="service-badge">اخبارینو</div>
+        <h3 class="service-title">اخبار شخصی‌سازی شده</h3>
+        <p class="service-description">
+          دریافت اخبار و محتوای سفارشی بر اساس علایق شما با استفاده از هوش مصنوعی شخصی سازی شده برای جلوگیری از هدر رفت زمان.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Download Section -->
+  <section id="download" class="download">
+    <div class="download-container">
+      <div class="download-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+      </div>
+
+      <h2 class="download-title">پویون در مرحله آزمایشی</h2>
+      <p class="download-description">
+        پویون در حال حاضر در مرحله آزمایشی است و به‌زودی برای تمامی پلتفرم‌ها منتشر خواهد شد.
+      </p>
+
+      <div class="download-platforms">
+        <div class="platform-card">
+          <svg class="platform-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+            <line x1="12" y1="18" x2="12.01" y2="18"></line>
+          </svg>
+          <div class="platform-name">اندروید</div>
+          <div class="platform-status">فعلا در دسترس نیست</div>
+        </div>
+
+        <div class="platform-card">
+          <svg class="platform-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+            <line x1="12" y1="18" x2="12.01" y2="18"></line>
+          </svg>
+          <div class="platform-name">iOS</div>
+          <div class="platform-status">فعلا در دسترس نیست</div>
+        </div>
+
+        <div class="platform-card">
+          <svg class="platform-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="2" y1="12" x2="22" y2="12"></line>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+          </svg>
+          <div class="platform-name">وب اپلیکیشن</div>
+          <div class="platform-status">فعلا در دسترس نیست</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <div>
+        <h4 class="footer-title">محصول</h4>
+        <ul class="footer-links">
+          <li><a href="#features">امکانات</a></li>
+          <li><a href="#services">سرویس‌ها</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="footer-title">شرکت</h4>
+        <ul class="footer-links">
+          <li><a href="#">درباره ما</a></li>
+          <li><a href="#">تماس</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="footer-title">پشتیبانی</h4>
+        <ul class="footer-links">
+          <li><a href="#">پرسش‌های متداول</a></li>
+          <li><a href="#">راهنما</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2025 Poyon - A work by Mohammad Mehdi Farghy</p>
+    </div>
+  </footer>
+
+  <script>
+    // Header scroll effect
+    window.addEventListener('scroll', function() {
+      const header = document.getElementById('header');
+      if (window.scrollY > 30) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        if (href === '#' || href === '#download') {
+          if (href === '#download') {
+            e.preventDefault();
+            const target = document.getElementById('download');
+            if (target) {
+              target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+              });
+            }
+          }
+          return;
+        }
+        if (href.startsWith('#')) {
+          e.preventDefault();
+          const target = document.querySelector(href);
+          if (target) {
+            target.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        }
+      });
+    });
+
+    // Mobile menu toggle (الان منویی وجود نداره، ولی اگر بعداً اضافه شد، این تابع آماده‌ست)
+    function toggleMobileMenu() {
+      const mobileMenu = document.getElementById('mobileMenu');
+      if (mobileMenu) {
+        mobileMenu.classList.toggle('active');
+      }
+    }
+  </script>
+</body>
+</html>
